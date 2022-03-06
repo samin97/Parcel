@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "650606621288",
+    "project_id": "userdemo-dd1e3",
+    "storage_bucket": "userdemo-dd1e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650606621288:android:98a55acf053e87a1a981dd",
+        "android_client_info": {
+          "package_name": "com.samin.userapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "650606621288-60bjbfp8i84bih5g3npccvfs4t64sgpu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB615eLZoBuwqByztuZY4Cjtv1UI_u9eTg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "650606621288-60bjbfp8i84bih5g3npccvfs4t64sgpu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
