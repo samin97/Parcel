@@ -9,8 +9,9 @@ getParcels(ParcelNotifier parcelNotifier) async{
   List<Parcel> _parcelList = [];
 
   snapshot.docs.forEach((documents) {
-  Parcel parcel = Parcel.fromMap(documents.data);
-  _parcelList.add(parcel);
+    //todo generate variable for documents.dart
+  //Parcel parcel = Parcel.fromJson(documents.data);
+  //_parcelList.add(parcel);
   });
   parcelNotifier.parcelList = _parcelList;
 }

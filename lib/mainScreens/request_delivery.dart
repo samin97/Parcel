@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:user_app/global/global.dart';
+import 'package:user_app/mainScreens/loacation_map.dart';
 import 'package:user_app/services/database.dart';
 import 'package:user_app/widgets/custom_text_field.dart';
 import 'package:user_app/widgets/error_dialog.dart';
@@ -24,7 +25,7 @@ class RequestDelivery extends StatefulWidget {
 }
 
 class _RequestDeliveryState extends State<RequestDelivery> {
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController titleController = TextEditingController();
   TextEditingController detailController = TextEditingController();
   TextEditingController weightController = TextEditingController();
@@ -34,7 +35,7 @@ class _RequestDeliveryState extends State<RequestDelivery> {
   TextEditingController priceController = TextEditingController();
   bool taken = false;
   bool approved = false;
-  String createdAt = DateTime.now().millisecondsSinceEpoch as String;
+  String createdAt = DateTime.now().millisecondsSinceEpoch.toString();
 
   String parcelImageUrl = "";
   String nameController = "";
@@ -42,7 +43,7 @@ class _RequestDeliveryState extends State<RequestDelivery> {
   XFile? parcelImageXFile;
   final ImagePicker _parcel = ImagePicker();
 
- Future<void> _getImage() async {
+  Future<void> _getImage() async {
     parcelImageXFile = await _parcel.pickImage(source: ImageSource.camera);
 
     setState(() {
@@ -50,81 +51,77 @@ class _RequestDeliveryState extends State<RequestDelivery> {
     });
   }
 
-  
-  Future<void> validate() async{
-    if(parcelImageUrl == null)
-    {
+  Future<void> validate() async {
+    if (parcelImageUrl == null) {
       showDialog(
           context: context,
-          builder: (c){
+          builder: (c) {
             return ErrorDialog(
               message: "Please Select an image.",
             );
-          }
-      );
-    }
-    else{
-      if(titleController.text.isNotEmpty && detailController.text.isNotEmpty && weightController.text.isNotEmpty && phoneController.text.isNotEmpty && pickController.text.isNotEmpty && dropController.text.isNotEmpty && priceController.text.isNotEmpty)
-        {
-          showDialog(
-              context: context,
-              builder: (c)
-              {
-                return LoadingDialog(
-                  message: "Posting Delivery Request",
-                );
-              }
-          );
-          String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-          p_storage.Reference reference = p_storage.FirebaseStorage.instance.ref().child("sellers").child(fileName);
-          p_storage.UploadTask uploadTask = reference.putFile(File(parcelImageXFile!.path));
-          p_storage.TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
-          await taskSnapshot.ref.getDownloadURL().then((url){
-            parcelImageUrl = url;
-
-            //save to database
-            User? currentUser;
-            FirebaseFirestore.instance.collection("parcel").doc(currentUser?.uid).set({
-
-              "title" : titleController.text.trim(),
-              "uid": currentUser?.uid,
-              "detail" : detailController.text.trim(),
-              "weight": weightController.text.trim(),
-              "phone": phoneController.text.trim(),
-              "pick" : pickController.text.trim(),
-              "drop" : dropController.text.trim(),
-              "price" : priceController.text.trim(),
-              "taken" : taken,
-              "approved" : approved,
-              "createdAt" : createdAt
-            });
-              Navigator.pop(context);
-              //sends user to home page
-              Route newRoute = MaterialPageRoute(builder: (c) => const HomeScreen());
-              Navigator.pushReplacement(context, newRoute);
-
-
-          }
-          );
-        }
-      else
-      {
+          });
+    } else {
+      if (titleController.text.isNotEmpty &&
+          detailController.text.isNotEmpty &&
+          weightController.text.isNotEmpty &&
+          phoneController.text.isNotEmpty &&
+          pickController.text.isNotEmpty &&
+          dropController.text.isNotEmpty &&
+          priceController.text.isNotEmpty) {
         showDialog(
             context: context,
-            builder: (c){
+            builder: (c) {
+              return LoadingDialog(
+                message: "Posting Delivery Request",
+              );
+            });
+        String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+        p_storage.Reference reference = p_storage.FirebaseStorage.instance
+            .ref()
+            .child("sellers")
+            .child(fileName);
+        p_storage.UploadTask uploadTask =
+            reference.putFile(File(parcelImageXFile!.path));
+        p_storage.TaskSnapshot taskSnapshot =
+            await uploadTask.whenComplete(() {});
+        await taskSnapshot.ref.getDownloadURL().then((url) {
+          parcelImageUrl = url;
+
+          //save to database
+          User? currentUser;
+          FirebaseFirestore.instance
+              .collection("parcel")
+              .doc(currentUser?.uid)
+              .set({
+            "title": titleController.text.trim(),
+            "uid": currentUser?.uid,
+            "detail": detailController.text.trim(),
+            "weight": weightController.text.trim(),
+            "phone": phoneController.text.trim(),
+            "pick": pickController.text.trim(),
+            "drop": dropController.text.trim(),
+            "price": priceController.text.trim(),
+            "taken": taken,
+            "approved": approved,
+            "createdAt": createdAt,
+          });
+          //sends user to home page
+          Navigator.pop(context);
+          Route newRoute =
+              MaterialPageRoute(builder: (c) => const HomeScreen());
+          Navigator.pushReplacement(context, newRoute);
+        });
+      } else {
+        showDialog(
+            context: context,
+            builder: (c) {
               return ErrorDialog(
                 message: "Please fill all the information.",
               );
-            }
-        );
+            });
       }
     }
-
-
-    
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +195,7 @@ class _RequestDeliveryState extends State<RequestDelivery> {
               height: 10,
             ),
             Form(
-                key: _formkey,
+                key: _formKey,
                 child: Column(
                   children: [
                     CustomTextField(
@@ -249,7 +246,12 @@ class _RequestDeliveryState extends State<RequestDelivery> {
                             primary: Colors.blue,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30))),
-                        onPressed: () => print('clicked'),
+                        onPressed: (){
+                          Navigator.pop(context);
+                          Route newRoute =
+                          MaterialPageRoute(builder: (c) => const LocationMap());
+                          Navigator.pushReplacement(context, newRoute);
+                        },
                       ),
                     ),
                     CustomTextField(
@@ -285,7 +287,7 @@ class _RequestDeliveryState extends State<RequestDelivery> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
               ),
-              onPressed: ()  {
+              onPressed: () {
                 validate();
               },
             ),
