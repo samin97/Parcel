@@ -35,13 +35,15 @@ class _RequestDeliveryState extends State<RequestDelivery> {
   TextEditingController priceController = TextEditingController();
   bool taken = false;
   bool approved = false;
-  String createdAt = DateTime.now().millisecondsSinceEpoch.toString();
+  DateTime createdAt = DateTime.now().millisecondsSinceEpoch as DateTime;
 
   String parcelImageUrl = "";
   String nameController = "";
 
   XFile? parcelImageXFile;
   final ImagePicker _parcel = ImagePicker();
+
+  get rid => null;
 
   Future<void> _getImage() async {
     parcelImageXFile = await _parcel.pickImage(source: ImageSource.camera);
@@ -89,12 +91,15 @@ class _RequestDeliveryState extends State<RequestDelivery> {
 
           //save to database
           User? currentUser;
+          var uid = sharedPreferences!.getString("uid");
           FirebaseFirestore.instance
               .collection("parcel")
               .doc(currentUser?.uid)
               .set({
             "title": titleController.text.trim(),
-            "uid": currentUser?.uid,
+            "uid": uid,
+            "rid": rid,
+            "parcelImageUrl" : parcelImageUrl,
             "detail": detailController.text.trim(),
             "weight": weightController.text.trim(),
             "phone": phoneController.text.trim(),

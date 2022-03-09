@@ -13,7 +13,7 @@ class _osmState extends State<osm> with OSMMixinObserver{
   @override
   void initState() {
     super.initState();
-    controller.addObserver(this);
+    //controller.addObserver(this);
   }
   @override
   Future<void> mapIsReady(bool isReady) async {

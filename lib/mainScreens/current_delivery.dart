@@ -1,7 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:user_app/api/parcel_api.dart';
 import 'package:user_app/controller/parcel_notifier.dart';
 import 'package:provider/provider.dart';
+import 'package:user_app/model/parcel.dart';
 
 class CurrentDelivery extends StatefulWidget {
   const CurrentDelivery({Key? key}) : super(key: key);
@@ -20,6 +22,7 @@ class _CurrentDeliveryState extends State<CurrentDelivery> {
     getParcels(parcelNotifier);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     ParcelNotifier parcelNotifier = Provider.of<ParcelNotifier>(context);
@@ -51,20 +54,48 @@ class _CurrentDeliveryState extends State<CurrentDelivery> {
         centerTitle: true,
         automaticallyImplyLeading: true,
       ),
-      body: ListView.separated(
-          itemBuilder: (BuildContext context, int index){
-            return ListTile(
-              title: Text(parcelNotifier.parcelList[index].title),
-              subtitle: Text(parcelNotifier.parcelList[index].pick+parcelNotifier.parcelList[index].price),
+      body: Container(
+        child: CarouselSlider(
+          options: CarouselOptions(
+            aspectRatio: 1.5,
+            viewportFraction: 0.9,
+            enlargeCenterPage: true,
+            enlargeStrategy: CenterPageEnlargeStrategy.height,
+          ),
+          items: Parcel.parcels.map((parcel) => parcelDemo(parcel: parcel)).
+          toList(),
+        ),
+      ),
 
-            );
-          }, itemCount: parcelNotifier.parcelList.length,
-      separatorBuilder: (BuildContext context,int index){
-            return const Divider(
-              color: Colors.black,
-            );
-      },)
+    );
+  }
+}
 
+class parcelDemo extends StatelessWidget {
+
+  final Parcel parcel;
+  const parcelDemo(
+  {
+    required this.parcel
+}
+      );
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(5.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              child: Image.network(
+                Parcel.parcels[0].parcelImageUrl,
+              ),
+            )
+            Text(parcel.title)
+          ],
+        ),
+      ),
     );
   }
 }

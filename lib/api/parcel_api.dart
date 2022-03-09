@@ -11,7 +11,7 @@ getParcels(ParcelNotifier parcelNotifier) async{
   snapshot.docs.forEach((documents) {
     //todo generate variable for documents.dart
   //Parcel parcel = Parcel.fromJson(documents.data);
-  //_parcelList.add(parcel);
+ // _parcelList.add(parcel);
   });
   parcelNotifier.parcelList = _parcelList;
 }

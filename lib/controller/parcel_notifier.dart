@@ -19,6 +19,4 @@ class ParcelNotifier with ChangeNotifier{
     _currentParcel = parcel;
     notifyListeners();
   }
-
-  
 }

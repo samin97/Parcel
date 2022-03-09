@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "650606621288",
-    "project_id": "userdemo-dd1e3",
-    "storage_bucket": "userdemo-dd1e3.appspot.com"
+    "project_number": "247080732655",
+    "project_id": "parcel-66f08",
+    "storage_bucket": "parcel-66f08.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:650606621288:android:98a55acf053e87a1a981dd",
+        "mobilesdk_app_id": "1:247080732655:android:047fed0a533fbf0e41581a",
         "android_client_info": {
           "package_name": "com.samin.userapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "650606621288-60bjbfp8i84bih5g3npccvfs4t64sgpu.apps.googleusercontent.com",
+          "client_id": "247080732655-rlmqb9vs3or35ga95hs5jee7gqee95aa.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB615eLZoBuwqByztuZY4Cjtv1UI_u9eTg"
+          "current_key": "AIzaSyBJaqn2fI4dbcv2BydRdkkj8b3rflVmtSs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "650606621288-60bjbfp8i84bih5g3npccvfs4t64sgpu.apps.googleusercontent.com",
+              "client_id": "247080732655-rlmqb9vs3or35ga95hs5jee7gqee95aa.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
