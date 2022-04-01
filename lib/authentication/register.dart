@@ -167,18 +167,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
       "phone": phoneController.text.trim(),
       "address": completeAddress,
       "status": "approved",
-      "earnings" : 0.0,
       "lat": position!.latitude,
       "lng": position!.longitude,
     });
 
     // save data locally
     sharedPreferences = await SharedPreferences.getInstance();
-    await sharedPreferences!.setString("uid", currentUser.uid);
+    await sharedPreferences!.setString("sellerUID", currentUser.uid);
     await sharedPreferences!.setString("email", currentUser.email.toString());
     await sharedPreferences!.setString("name", nameController.text.trim());
-    await sharedPreferences!.setString("lat", position!.latitude.toString());
-    await sharedPreferences!.setString("lng", position!.longitude.toString());
 
   }
 

@@ -51,7 +51,7 @@ class _MySplashScreenState extends State<MySplashScreen> {
               const Padding(
                 padding: EdgeInsets.all(18.0),
                 child: Text(
-                  "Post Job requests",
+                  "We deliver",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black54,

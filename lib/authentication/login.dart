@@ -15,75 +15,72 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  formValidation()
-  {
-    if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty)
-    {
-       loginNow();
-     }
-    else
-    {
-        showDialog(
-            context: context,
-            builder: (c)
-            {
-              return ErrorDialog(message: "Please write email/password",);
-            }
-        );
+  formValidation() {
+    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+      loginNow();
+    } else {
+      showDialog(
+          context: context,
+          builder: (c) {
+            return const ErrorDialog(
+              message: "Please write email/password",
+            );
+          });
     }
   }
 
-
-  loginNow() async
-  {
+  loginNow() async {
     showDialog(
         context: context,
-        builder: (c)
-        {
+        builder: (c) {
           return LoadingDialog(
             message: "Checking credentials",
           );
-        }
-    );
+        });
 
     User? currentUser;
-    await firebaseAuth.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-    ).then((auth){
+    await firebaseAuth
+        .signInWithEmailAndPassword(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    )
+        .then((auth) {
       currentUser = auth.user!;
-    }).catchError((error){
+    }).catchError((error) {
       Navigator.pop(context);
       showDialog(
           context: context,
-          builder: (c)
-          {
+          builder: (c) {
             return ErrorDialog(
               message: error.message.toString(),
             );
-          }
-      );
+          });
     });
-    if(currentUser != null)
-      {
-        readDataAndSetDataLocally(currentUser!).then((value){
-          Navigator.pop(context);
-          Navigator.push(context, MaterialPageRoute(builder: (c)=> const HomeScreen()));
-        });
-      }
+    if (currentUser != null) {
+      readDataAndSetDataLocally(currentUser!).then((value) {
+        Navigator.pop(context);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (c) => const HomeScreen()));
+      });
+    }
   }
-  Future readDataAndSetDataLocally(User currentUser) async
-  {
-    await FirebaseFirestore.instance.collection("sellers").doc(currentUser.uid).get().then((snapshot) async{
-      await sharedPreferences!.setString("uid", currentUser.uid);
-      await sharedPreferences!.setString("email", snapshot.data()!["sellerEmail"]);
-      await sharedPreferences!.setString("name", snapshot.data()!["sellerName"]);
-      await sharedPreferences!.setString("photoUrl", snapshot.data()!["sellerAvatar"]);
+
+  Future readDataAndSetDataLocally(User currentUser) async {
+    await FirebaseFirestore.instance
+        .collection("sellers")
+        .doc(currentUser.uid)
+        .get()
+        .then((snapshot) async {
+      await sharedPreferences
+          ?.setString("sellerUID", snapshot.data()!["sellerUID"]);
+      await sharedPreferences
+          ?.setString("email", snapshot.data()!["sellerEmail"]);
+      await sharedPreferences
+          ?.setString("name", snapshot.data()!["sellerName"]);
     });
   }
 
@@ -102,9 +99,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 270,
               ),
             ),
-          ),   //login image
+          ), //login image
           Form(
-            key: _formkey,
+            key: _formKey,
             child: Column(
               children: [
                 CustomTextField(
@@ -122,29 +119,31 @@ class _LoginScreenState extends State<LoginScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           ElevatedButton(
             child: const Text(
               "Log in",
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
             style: ElevatedButton.styleFrom(
               primary: Colors.lightBlueAccent,
-              shape:  RoundedRectangleBorder(
+              shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
             ),
-            onPressed: ()
-            {
+            onPressed: () {
               formValidation();
             },
           ),
-          const SizedBox(height: 30,),
+          const SizedBox(
+            height: 30,
+          ),
         ],
       ),
     );
   }
 }
-
-

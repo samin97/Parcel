@@ -1,104 +1,78 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equatable/equatable.dart';
-
-class Parcel extends Equatable {
-  final String id;
+class Order {
   final String parcelImageUrl;
   final String title;
   final String detail;
   final String weight;
   final String phone;
+  final String dropphone;
   final String pick;
   final String drop;
   final String price;
-  final String taken;
-  final String approved;
-  final String uid;
+  final bool taken;
+  final bool approved;
+  final bool userCompleted;
+  final bool riderCompleted;
+  final String sellerUID;
   final String rid;
+  final int completedDate;
 
-  Parcel({
-    required this.id,
+  Order({
     required this.title,
     required this.parcelImageUrl,
-    required this.uid,
+    required this.sellerUID,
     required this.rid,
     required this.detail,
     required this.weight,
     required this.phone,
+    required this.dropphone,
     required this.pick,
     required this.drop,
     required this.price,
     required this.taken,
     required this.approved,
+    required this.userCompleted,
+    required this.riderCompleted,
+    required this.completedDate,
   });
 
-  factory Parcel.fromJson(Map<String, dynamic> json) {
-    return Parcel(
-        id: json['id'],
+  factory Order.fromJson(Map<String, dynamic> json) {
+    return Order(
         title: json['title'],
         detail: json['detail'],
         weight: json['weight'],
         phone: json['phone'],
+        dropphone: json['dropphone'],
         pick: json['pick'],
         drop: json['drop'],
         price: json['price'],
         taken: json['taken'],
         approved: json['approved'],
-        uid: json['uid'],
+        sellerUID: json['sellerUID'],
         parcelImageUrl: json['parcelImageUrl'],
+        userCompleted: json['userCompleted'],
+        riderCompleted: json['riderCompleted'],
+        completedDate: json['completedDate'],
         rid: json['rid']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
     data['title'] = title;
     data['detail'] = detail;
     data['weight'] = weight;
     data['phone'] = phone;
+    data['dropphone'] = dropphone;
     data['pick'] = pick;
     data['drop'] = drop;
     data['price'] = price;
     data['taken'] = taken;
     data['approved'] = approved;
-    data['uid'] = uid;
+    data['sellerUID'] = sellerUID;
     data['parcelImageUrl'] = parcelImageUrl;
     data['rid'] = rid;
-
+    data['userCompleted']= userCompleted;
+    data['riderCompleted']= riderCompleted;
+    data['completedDate']= completedDate;
     return data;
   }
-
-  @override
-  List<Object?> get props => [
-        id,
-        title,
-        parcelImageUrl,
-        detail,
-        weight,
-        phone,
-        pick,
-        drop,
-        price,
-        taken,
-        approved,
-        uid,
-        rid,
-      ];
-  static List<Parcel> parcels = {
-    Parcel(
-      id: 'a',
-      title: 'a',
-      parcelImageUrl: 'a',
-      detail: 'a',
-      weight: 'a',
-      phone: 'a',
-      pick: 'a',
-      drop: 'a',
-      price: 'a',
-      taken: 'a',
-      approved: 'a',
-      uid: 'a',
-      rid: 'a',
-    )
-  } as List<Parcel>;
 }
